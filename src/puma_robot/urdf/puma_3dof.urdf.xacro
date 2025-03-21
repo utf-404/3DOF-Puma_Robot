@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<robot name="puma_3dof" xmlns:xacro="http://ros.org/wiki/xacro">
+
+    <!-- COLOR -->
+    <material name="green">
+        <color rgba="0 1 0 1" />
+    </material>
+
+    <material name="blue">
+        <color rgba="0 0 1 1"/>
+    </material>
+
+    <material name="red">
+        <color rgba="1 0 0 1"/>
+    </material>
+
+    <!-- 기본 베이스 링크 -->
+    <link name="base_link"/>
+
+    <!-- Shoulder Joint -->
+    <joint name="joint1" type="revolute">
+        <parent link="base_link"/>
+        <child link="link1"/>
+        <origin xyz="0 0 0.1" rpy="0 0 0"/>
+        <axis xyz="0 0 1"/>
+        <limit effort="10.0" lower="-1.57" upper="1.57" velocity="1.0"/>
+    </joint>
+    <link name="link1">
+        <visual>
+            <geometry>
+                <cylinder radius="0.05" length="0.3"/>
+            </geometry>
+            <material name="blue"/>
+        </visual>
+    </link>
+
+    <!-- Elbow Joint -->
+    <joint name="joint2" type="revolute">
+        <parent link="link1"/>
+        <child link="link2"/>
+        <origin xyz="0 0 0.3" rpy="0 0 0"/>
+        <axis xyz="0 1 0"/>
+        <limit effort="10.0" lower="-1.57" upper="1.57" velocity="1.0"/>
+    </joint>
+    <link name="link2">
+        <visual>
+            <geometry>
+                <cylinder radius="0.04" length="0.3"/>
+            </geometry>
+            <material name="green"/>
+        </visual>
+    </link>
+
+    <!-- Wrist Joint -->
+    <joint name="joint3" type="revolute">
+        <parent link="link2"/>
+        <child link="link3"/>
+        <origin xyz="0 0 0.3" rpy="0 0 0"/>
+        <axis xyz="1 0 0"/>
+        <limit effort="10.0" lower="-1.57" upper="1.57" velocity="1.0"/>
+    </joint>
+    <link name="link3">
+        <visual>
+            <geometry>
+                <cylinder radius="0.03" length="0.2"/>
+            </geometry>
+            <material name="red"/>
+        </visual>
+    </link>
+
+</robot>

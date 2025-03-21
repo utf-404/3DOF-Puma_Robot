@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PUMA Robot Control</title>
+    <script>
+        let socket = new WebSocket("ws://192.168.1.152:8005/ws");
+
+        socket.onopen = function(event) {
+        console.log(" WebSocket Connected!");
+        // socket.send(JSON.stringify([0.5, -0.3, 0.2]));  // ROS2로 조인트 데이터 전송
+        };
+
+        socket.onmessage = function(event) {
+            console.log(" Received Data:", event.data);
+        };
+
+        socket.onmessage = function(event) {
+            console.log("Received data:", event.data);
+        };
+
+        socket.onerror = function(event) {
+            console.error("WebSocket Error:", event);
+        };
+
+        socket.onclose = function(event) {
+            console.log("WebSocket Closed:", event);
+        };
+
+
+        socket.onmessage = function(event) {
+            let data = JSON.parse(event.data);
+            document.getElementById("log").innerHTML += 
+                `J1: ${data.joint1.toFixed(2)}, J2: ${data.joint2.toFixed(2)}, J3: ${data.joint3.toFixed(2)}<br>`;
+        };
+
+        logSocket.onmessage = function(event) {
+        const logData = JSON.parse(event.data);
+        const logElement = document.getElementById("log");
+        logElement.innerHTML += `<p> Joint State: ${JSON.stringify(logData)}</p>`;
+    };
+
+        // WebSocket으로 전송
+        function sendJoints() {
+            let j1 = parseFloat(document.getElementById("joint1").value);
+            let j2 = parseFloat(document.getElementById("joint2").value);
+            let j3 = parseFloat(document.getElementById("joint3").value);
+            socket.send(JSON.stringify([j1, j2, j3]));
+        }
+
+        // 웹 조인트 변경 사항 수신 후 UI 업데이트
+        ws.onmessage = function (event) {
+        const data = JSON.parse(event.data);
+        if (data.joint_positions) {
+            document.getElementById("joint1").value = data.joint_positions[0];
+            document.getElementById("joint2").value = data.joint_positions[1];
+            document.getElementById("joint3").value = data.joint_positions[2];
+            console.log("✅ Updated from RViz2:", data.joint_positions);
+        }
+    };
+    </script>
+</head>
+<body>
+    <h2>PUMA 3DOF Robot Control</h2>
+    <label>Joint 1:</label> <input type="number" id="joint1" step="0.1"><br>
+    <label>Joint 2:</label> <input type="number" id="joint2" step="0.1"><br>
+    <label>Joint 3:</label> <input type="number" id="joint3" step="0.1"><br>
+    <button onclick="sendJoints()">Move Robot</button>
+
+    <div id="log" style="background: #222; color: #0f0; padding: 10px; max-height: 200px; overflow-y: auto;">
+        <h3>📡 Joint State Logs</h3>
+    </div>
+</body>
+</html>

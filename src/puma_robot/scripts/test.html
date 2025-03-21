@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PUMA Robot Control</title>
+</head>
+<body>
+    <h1>PUMA Robot Controller</h1>
+
+    <h3>Send Joint Commands</h3>
+    <label>Joint 1: <input type="number" id="joint1" step="0.1"></label>
+    <label>Joint 2: <input type="number" id="joint2" step="0.1"></label>
+    <label>Joint 3: <input type="number" id="joint3" step="0.1"></label>
+    <button onclick="sendCommand()">Send</button>
+
+    <h3>Updated Joint States</h3>
+    <div id="log"></div>
+
+    <script>
+        const ws = new WebSocket("ws://localhost:8005/ws");
+        const wsLog = new WebSocket("ws://localhost:8005/ws_log");
+
+        function sendCommand() {
+            let joint1 = parseFloat(document.getElementById("joint1").value) || 0.0;
+            let joint2 = parseFloat(document.getElementById("joint2").value) || 0.0;
+            let joint3 = parseFloat(document.getElementById("joint3").value) || 0.0;
+            let data = JSON.stringify([joint1, joint2, joint3]);
+
+            ws.send(data);
+            console.log("📤 Sent Joint Command:", data);
+        }
+
+        wsLog.onmessage = function(event) {
+            let logDiv = document.getElementById("log");
+            let jointState = JSON.parse(event.data);
+            logDiv.innerHTML = `<p> Updated Joint State: ${JSON.stringify(jointState)}</p>`;
+            console.log("🔄 Updated Joint State:", jointState);
+        };
+
+        wsLog.onopen = () => console.log(" WebSocket Log Connected");
+        wsLog.onclose = () => console.log(" WebSocket Log Disconnected");
+    </script>
+</body>
+</html>

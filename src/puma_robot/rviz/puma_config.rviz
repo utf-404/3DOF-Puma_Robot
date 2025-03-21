@@ -1,0 +1,16 @@
+Visualization Manager:
+  Class: ""
+  Displays:
+    - Name: RobotModel
+      Class: rviz_default_plugins/RobotModel
+      Enabled: true
+      Robot Description: robot_description
+      TF Prefix: ""
+    - Name: TF
+      Class: rviz_default_plugins/TF
+      Enabled: true
+      Show Names: true
+      Show Axes: true
+    - Name: Grid
+      Class: rviz_default_plugins/Grid
+      Enabled: true

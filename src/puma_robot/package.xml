@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>puma_robot</name>
+  <version>0.0.1</version>
+  <description>PUMA 3DOF Robot</description>
+  <maintainer email="junryeol@todo.todo">junryeol</maintainer>
+  <license>Apache-2.0</license>
+
+  <!-- 빌드 도구 -->
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <!-- 실행에 필요한 ROS2 패키지 -->
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>robot_state_publisher</exec_depend>
+  <exec_depend>joint_state_publisher</exec_depend>
+  <exec_depend>geometry_msgs</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
+  <exec_depend>fastapi</exec_depend>
+  <exec_depend>uvicorn</exec_depend>
+  <exec_depend>websockets</exec_depend>
+
+  <!-- 테스트 관련 패키지 -->
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

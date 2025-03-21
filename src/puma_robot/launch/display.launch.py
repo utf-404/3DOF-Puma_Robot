@@ -37,6 +37,14 @@ def generate_launch_description():
             output="screen",
             parameters=[{"robot_description": robot_description_content}]
         ),
+        
+
+        launch_ros.actions.Node(
+            package="joint_state_publisher_gui",
+            executable="joint_state_publisher_gui",
+            name="joint_state_publisher",
+            output="screen"
+        ),
 
 
         launch_ros.actions.Node(
